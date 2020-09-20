@@ -8,6 +8,7 @@ spec:
     metadata:
       labels:
         app: devnull
+        deployment: devnull
     spec:
       containers:
       - name: devnull-http
