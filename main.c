@@ -5,6 +5,7 @@
 #include <arpa/inet.h> // htons, htonl
 #include <string.h> // memset, strlen, memcpy
 #include <errno.h> // errno
+#include <stdlib.h> // getenv, atoi
 
 #include <signal.h> // signal
 
@@ -21,11 +22,16 @@ void int_handler (int foo) {
 
 int main(int argc, char** argv) {
 
+
+    const char* port_s = getenv("PORT");
+    unsigned short port = (unsigned short) (port_s?atoi(port_s):0);
+    if (!port) port = PORT;
+
     struct sockaddr_in srv_addr;
     memset((char *)&srv_addr, 0, sizeof(srv_addr)); 
     srv_addr.sin_family = AF_INET; 
     srv_addr.sin_addr.s_addr = htonl(INADDR_ANY); 
-    srv_addr.sin_port = htons(PORT); 
+    srv_addr.sin_port = htons(port); 
     memset(srv_addr.sin_zero, '\0', sizeof srv_addr.sin_zero);
 
 
@@ -51,7 +57,7 @@ int main(int argc, char** argv) {
     if(listen(socket_4, BACKLOG)<0)
         printf("error on listen()\n");
 
-    printf("Listening on port %d\n", PORT);
+    printf("Listening on port %d\n", port);
     socklen_t addrlen;
     while (not_interrupted) {
         int new_sock = accept(socket_4, (struct sockaddr*) &srv_addr, (socklen_t*) &addrlen);
