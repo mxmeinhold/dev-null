@@ -1,0 +1,32 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: devnull
+  name: devnull
+  namespace: devnull
+spec:
+  successfulBuildsHistoryLimit: 3
+  failedBuildsHistoryLimit: 3
+  triggers:
+    - type: "GitHub"
+      github:
+        secret: "devnull"
+  source:
+    git:
+      uri: "https://github.com/mxmeinhold/devnull.git"
+  output:
+    to:
+      kind: ImageStreamTag
+      name: devnull:latest
+  runPolicy: SerialLatestOnly
+  strategy:
+    dockerStrategy: {}
+    type: Docker
+  # Lookup local images
+  lookupPolicy:
+    local: true
+  status:
+    tags:
+    - items:
+      tag: latest

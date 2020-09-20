@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  labels:
+    app: devnull
+  name: devnull
+  namespace: devnull
+spec:
+  # Lookup local images
+  lookupPolicy:
+    local: true
+  status:
+    tags:
+    - items:
+      tag: latest
