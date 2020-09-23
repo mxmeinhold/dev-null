@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
 
         printf("Read bytes: %ld\n\n%s\n", num_read, buffer);
 
-        const char* body = "Feedback Recieved and discarded";
+        const char* body = "Feedback Recieved and discarded\n";
 
         char response[1024];
         sprintf(response, "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: %ld\n\n%s", strlen(body), body);
